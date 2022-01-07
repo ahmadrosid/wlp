@@ -2,9 +2,18 @@
 name = "wlp"
 version = "0.1.0"
 edition = "2021"
+authors = ["Ahmmad Rosid <alahmadrosid@gmail.com>"]
+categories = ["command-line-utilities"]
+description = """
+🏝️ Command line app to set wallpaper from your terminal!
+"""
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 wallpaper = { version = "3", features = ["from_url"] }
 clap = { version = "3.0.5", features = ["derive"] }
+
+[[bin]]
+name = "wlp"
+path = "src/main.rs"
