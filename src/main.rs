@@ -45,14 +45,19 @@ impl std::str::FromStr for ModeOption {
 #[allow(unused_must_use)]
 fn main() {
     let matches = App::new("")
-        .about("Set wallpaper from your command line!")
-        .arg(arg!([path] "Image path!"))
-        .arg(arg!(-e - -ignore "Ignore file extensions!"))
-        .arg(arg!(-r - -random))
+        .about("Set wallpaper from your command line")
+        .arg(arg!([path] "Image path"))
+        .arg(arg!(-e - -ignore "Ignore file extensions"))
+        .arg(arg!(-r - -random "Set random wallpaper from unsplash"))
         .arg(
             arg!(-m - -mode)
-                .help("What mode to run the program in")
+                .help("Wallpaper mode option")
                 .possible_values(ModeOption::possible_values()),
+        )
+        .subcommand(
+            App::new("url")
+                .arg(arg!([url_path]))
+                .about("Download wallpaper from url"),
         )
         .setting(AppSettings::ArgRequiredElseHelp)
         .get_matches();
@@ -60,7 +65,6 @@ fn main() {
     if let Some(path) = matches.value_of("path") {
         let image_path = Path::new(path);
         if let Some(ext) = image_path.extension() {
-            println!("Got file extensions!");
             match ext.to_str().unwrap() {
                 "png" | "jpg" => set_from_path(path),
                 _ => {
@@ -68,7 +72,8 @@ fn main() {
                         set_from_path(path);
                         return;
                     }
-                    println!("Unsupported image extensions {:?}", ext)
+                    println!("Unsupported image extensions {:?}", ext);
+                    std::process::exit(0x001);
                 }
             }
         } else {
@@ -84,9 +89,16 @@ fn main() {
     if matches.is_present("random") {
         let url = "https://source.unsplash.com/random";
         println!("Fetching random image from {}!", url);
-        match wallpaper::set_from_url(url) {
-            Ok(_) => println!("Done, image path: {}!", wallpaper::get().unwrap()),
-            Err(msg) => println!("Error {}", msg),
+        set_from_url(url);
+    }
+
+    if let Some(sub) = matches.subcommand_matches("url") {
+        match sub.value_of("url_path") {
+            Some(url) => {
+                println!("Downloading image from {}!", url);
+                set_from_url(url);
+            }
+            _ => {}
         }
     }
 
@@ -107,6 +119,13 @@ fn main() {
 
 fn set_from_path(path: &str) {
     match wallpaper::set_from_path(path) {
+        Ok(_) => println!("Done, image path: {}!", wallpaper::get().unwrap()),
+        Err(msg) => println!("Error {}", msg),
+    }
+}
+
+fn set_from_url(path: &str) {
+    match wallpaper::set_from_url(path) {
         Ok(_) => println!("Done, image path: {}!", wallpaper::get().unwrap()),
         Err(msg) => println!("Error {}", msg),
     }
