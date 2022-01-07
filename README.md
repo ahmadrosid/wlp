@@ -2,14 +2,15 @@
 Set wallpaper from your terminal.
 
 ## Installation
-Clone repository
+Manual
 ```bash
 git clone https://github.com/ahmadrosid/wlp.git
+cargo install --path wlp/
 ```
 
 Install using cargo.
 ```shell
-cargo install --path .
+cargo install wlp
 ```
 
 ## Usage
