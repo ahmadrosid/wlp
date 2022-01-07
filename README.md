@@ -14,6 +14,7 @@ cargo install --path .
 
 ## Usage
 ```shell
+Set wallpaper from your command line!
 
 USAGE:
     wlp [OPTIONS] [path]
@@ -22,11 +23,11 @@ ARGS:
     <path>    Image path!
 
 OPTIONS:
+    -e, --ignore         Ignore file extensions!
     -h, --help           Print help information
     -m, --mode <mode>    What mode to run the program in [possible values: center, crop, fit, span,
                          stretch, tile]
     -r, --random         
-
 ```
 
 Example
