@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Ahmmad Rosid <alahmadrosid@gmail.com>"]
 categories = ["command-line-utilities"]
+keywords = ["command-line", "shell", "bash"]
 description = "🏝️ Command line app to set wallpaper from your terminal!"
 license = "MIT"
 repository = "https://github.com/ahmadrosid/wlp/"
