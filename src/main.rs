@@ -1,4 +1,4 @@
-use clap::{arg, App, ArgEnum, PossibleValue, AppSettings};
+use clap::{arg, App, AppSettings, ArgEnum, PossibleValue};
 use std::path::Path;
 use wallpaper;
 
@@ -42,10 +42,12 @@ impl std::str::FromStr for ModeOption {
     }
 }
 
+#[allow(unused_must_use)]
 fn main() {
     let matches = App::new("")
         .about("Set wallpaper from your command line!")
         .arg(arg!([path] "Image path!"))
+        .arg(arg!(-e - -ignore "Ignore file extensions!"))
         .arg(arg!(-r - -random))
         .arg(
             arg!(-m - -mode)
@@ -62,10 +64,18 @@ fn main() {
             match ext.to_str().unwrap() {
                 "png" | "jpg" => set_from_path(path),
                 _ => {
+                    if matches.is_present("ignore") {
+                        set_from_path(path);
+                        return;
+                    }
                     println!("Unsupported image extensions {:?}", ext)
                 }
             }
         } else {
+            if matches.is_present("ignore") {
+                set_from_path(path);
+                return;
+            }
             println!("Invalid image path {}", path);
             std::process::exit(0x001)
         }
@@ -80,17 +90,19 @@ fn main() {
         }
     }
 
-    match matches
-        .value_of_t("mode")
-        .expect("'mode' is required and parsing will fail if its missing")
-    {
-        ModeOption::Center => wallpaper::set_mode(wallpaper::Mode::Center),
-        ModeOption::Crop => wallpaper::set_mode(wallpaper::Mode::Crop),
-        ModeOption::Fit => wallpaper::set_mode(wallpaper::Mode::Fit),
-        ModeOption::Span => wallpaper::set_mode(wallpaper::Mode::Span),
-        ModeOption::Stretch => wallpaper::set_mode(wallpaper::Mode::Stretch),
-        ModeOption::Tile => wallpaper::set_mode(wallpaper::Mode::Tile),
-    }.unwrap()
+    if matches.is_present("mode") {
+        match matches
+            .value_of_t("mode")
+            .expect("'mode' is required and parsing will fail if its missing")
+        {
+            ModeOption::Center => wallpaper::set_mode(wallpaper::Mode::Center),
+            ModeOption::Crop => wallpaper::set_mode(wallpaper::Mode::Crop),
+            ModeOption::Fit => wallpaper::set_mode(wallpaper::Mode::Fit),
+            ModeOption::Span => wallpaper::set_mode(wallpaper::Mode::Span),
+            ModeOption::Stretch => wallpaper::set_mode(wallpaper::Mode::Stretch),
+            ModeOption::Tile => wallpaper::set_mode(wallpaper::Mode::Tile),
+        };
+    }
 }
 
 fn set_from_path(path: &str) {
