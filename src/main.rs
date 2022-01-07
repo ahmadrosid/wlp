@@ -1,4 +1,4 @@
-use clap::{arg, App, ArgEnum, PossibleValue};
+use clap::{arg, App, ArgEnum, PossibleValue, AppSettings};
 use std::path::Path;
 use wallpaper;
 
@@ -43,7 +43,7 @@ impl std::str::FromStr for ModeOption {
 }
 
 fn main() {
-    let matches = App::new("wlp")
+    let matches = App::new("")
         .about("Set wallpaper from your command line!")
         .arg(arg!([path] "Image path!"))
         .arg(arg!(-r - -random))
@@ -52,6 +52,7 @@ fn main() {
                 .help("What mode to run the program in")
                 .possible_values(ModeOption::possible_values()),
         )
+        .setting(AppSettings::ArgRequiredElseHelp)
         .get_matches();
 
     if let Some(path) = matches.value_of("path") {
