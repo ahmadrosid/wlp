@@ -4,9 +4,11 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Ahmmad Rosid <alahmadrosid@gmail.com>"]
 categories = ["command-line-utilities"]
-description = """
-🏝️ Command line app to set wallpaper from your terminal!
-"""
+description = "🏝️ Command line app to set wallpaper from your terminal!"
+license = "MIT"
+repository = "https://github.com/ahmadrosid/wlp/"
+readme = "README.md"
+homepage = "https://ahmadrosid.com/"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
