@@ -119,14 +119,14 @@ fn main() {
 
 fn set_from_path(path: &str) {
     match wallpaper::set_from_path(path) {
-        Ok(_) => println!("Done, image path: {}!", wallpaper::get().unwrap()),
+        Ok(_) => println!("\x1B[32m✔\x1B[0m Done!"),
         Err(msg) => println!("Error {}", msg),
     }
 }
 
 fn set_from_url(path: &str) {
     match wallpaper::set_from_url(path) {
-        Ok(_) => println!("Done, image path: {}!", wallpaper::get().unwrap()),
+        Ok(_) => println!("\x1B[32m✔\x1B[0m Done!"),
         Err(msg) => println!("Error {}", msg),
     }
 }
