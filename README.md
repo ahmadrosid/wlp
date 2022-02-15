@@ -1,5 +1,5 @@
 # WLP
-Set wallpaper from your terminal.
+Set wallpaper from your terminal. It works on Linux, Mac and Windows.
 
 ## Installation
 Manual
